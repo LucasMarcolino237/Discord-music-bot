@@ -1,0 +1,26 @@
+{
+  "name": "music-bot",
+  "version": "1.0.0",
+  "description": "Just a music bot",
+  "main": "music_bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LucasMarcolino237/Discord-music-bot.git"
+  },
+  "author": "Lucas-Marcolino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LucasMarcolino237/Discord-music-bot/issues"
+  },
+  "homepage": "https://github.com/LucasMarcolino237/Discord-music-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "ffbinaries": "^1.1.4",
+    "ffmpeg": "0.0.4",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^2.1.7"
+  }
+}
