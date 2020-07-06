@@ -4,11 +4,11 @@ const ytdl = require('ytdl-core');
 const streamOptions = {seek: 0, volume: 1};
 
 
-const token = 'NzI4NjkyNTc2NTI1MjIxOTI5.Xv-adQ.HRKHOX6qWC4WjATkT2BfSK2kufI'
+const token = 'INSIRA_O_SEU_TOKEN'
 bot.login(token);
 
 bot.on('ready', () => {
-    console.log('!')
+    console.log('Bot pronto para o uso!')
 })
 
 bot.on('message', msg => {
