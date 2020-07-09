@@ -4,7 +4,7 @@ const ytdl = require('ytdl-core');
 const streamOptions = {seek: 0, volume: 1};
 
 
-const token = 'INSIRA_O_SEU_TOKEN'
+const token = 'INSIRA_SEU_TOKEN'
 bot.login(token);
 
 bot.on('ready', () => {
@@ -14,26 +14,38 @@ bot.on('ready', () => {
 bot.on('message', msg => {
     if (msg.author.bot) {
         return;
-    }
-    if (msg.content.toLowerCase().startsWith("!play")) {
-        let VoiceChannel = msg.guild.channels.cache.find( channel => channel.id === '697637636411752502')
-        if (VoiceChannel == null) {
-            console.log('Canal não encontrado.')
-        } else {
-            console.log('Canal encontrado.')
+    } else {
+        // Identifica o canal no qual o usuário está.
+        let VoiceChannel = msg.member.voice.channel;
+        if (msg.content.toLowerCase().startsWith("!play")) {
+            let link = (msg.content);
+            if (VoiceChannel == null) {
+                console.log('Canal não encontrado.');
+            } else {
+                console.log('Canal encontrado.');
 
-            VoiceChannel.join()
-            .then(connection => {
-                var link = 'https://www.youtube.com/watch?v=SYM-RJwSGQ8';
-                console.log(`Reproduzindo ${link}`)
-                const stream = ytdl(link, {filter:'audioonly'})
+                VoiceChannel.join()
+                .then(connection => {
+                    link = (link.slice(6));
+                    console.log(`Reproduzindo ${link}`);
+                    // Encontra e reproduz a música escolhida.
+                    const stream = ytdl(link, {filter:'audioonly'});
 
-                const DJ = connection.play(stream, streamOptions);
-                DJ.on('end', end => {
-                    VoiceChannel.leave();
-                });
-            })
-            .catch(console.error);
+                    const DJ = connection.play(stream, streamOptions);
+                    
+                    DJ.on('end', end => {
+                        console.log('Saindo do canal.')
+                        VoiceChannel.leave();
+                    });
+                
+                })
+                .catch(console.error);
+            }
+        }
+        // Retira o bot da chamada.
+        if (msg.content.toLocaleLowerCase() === '!leave') {
+            console.log('Saindo do canal.');
+            VoiceChannel.leave();
         }
     }
 })
