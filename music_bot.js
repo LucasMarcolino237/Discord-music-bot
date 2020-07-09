@@ -19,8 +19,12 @@ bot.on('message', msg => {
         let VoiceChannel = msg.member.voice.channel;
         if (msg.content.toLowerCase().startsWith("!play")) {
             let link = (msg.content);
-            if (VoiceChannel == null) {
+            if (VoiceChannel === null) {
+                // Envia um aviso caso o canal não seja encontrado.
                 console.log('Canal não encontrado.');
+                msg.channel.send('Você precisa estar em um canal primeiro.')
+                    .then(msg => console.log(`Sent message: ${msg.content}`))
+                    .catch(console.error);
             } else {
                 console.log('Canal encontrado.');
 
@@ -32,12 +36,11 @@ bot.on('message', msg => {
                     const stream = ytdl(link, {filter:'audioonly'});
 
                     const DJ = connection.play(stream, streamOptions);
-                    
+
                     DJ.on('end', end => {
-                        console.log('Saindo do canal.')
+                        console.log('Saindo do canal.');
                         VoiceChannel.leave();
                     });
-                
                 })
                 .catch(console.error);
             }
