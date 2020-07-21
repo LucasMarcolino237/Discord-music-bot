@@ -2,8 +2,13 @@ const { Util } = require('discord.js')
 const ytdl = require('ytdl-core');
 
 module.exports = {
+
     async play(msg, args) {
         // Comando "play". 
+        if (!args[0]) {
+            return msg.channel.send('Nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
+                .then(msg => console.log('Comando incompleto. Nenhuma música foi informada.'));
+        }
         const VoiceChannel = msg.member.voice.channel;
         const serverQueue = msg.client.queue.get(msg.guild.id);
         const songInfo = await ytdl.getInfo(args[0].replace(/<(.+)>/g, '$1'));
@@ -54,6 +59,8 @@ module.exports = {
             return msg.channel.send(`Não foi possivel entrar no canal: ${error}`);
         }
     },
+
+
     pause(msg) {
         // Comando "pause".
         const serverQueue = msg.client.queue.get(msg.guild.id);
@@ -66,6 +73,8 @@ module.exports = {
         msg.channel.send('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
         console.log('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
     },
+
+
     resume(msg) {
         // Comando "resume".
         const serverQueue = msg.client.queue.get(msg.guild.id);
@@ -82,6 +91,8 @@ module.exports = {
         msg.channel.send('Não há nenhuma música pausada.');
         console.log('Não há nenhuma música pausada.');
     },
+
+
     skip(msg) {
         // Comando "skip".
         const serverQueue = msg.client.queue.get(msg.guild.id);
@@ -96,6 +107,8 @@ module.exports = {
         msg.channel.send('Não há mais músicas na fila.');
         console.log('Não há mais músicas na fila.');
     },
+
+
     stop(msg) {
         // Comando "stop".
         const serverQueue = msg.client.queue.get(msg.guild.id);
@@ -106,6 +119,8 @@ module.exports = {
         msg.channel.send('Comando "stop" usado.');
         console.log('Comando "stop" usado.');
     },
+
+
     leave(msg) {
         // Comando "leave".
         const VoiceChannel = msg.member.voice.channel;
