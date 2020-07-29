@@ -118,13 +118,5 @@ module.exports = {
         serverQueue.connection.dispatcher.end();
         msg.channel.send('Comando "stop" usado.');
         console.log('Comando "stop" usado.');
-    },
-
-
-    leave(msg) {
-        // Comando "leave".
-        const VoiceChannel = msg.member.voice.channel;
-        console.log('Saindo do canal.');
-        VoiceChannel.leave();
     }
 };
