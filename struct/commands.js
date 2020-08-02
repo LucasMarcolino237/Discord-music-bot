@@ -114,9 +114,21 @@ module.exports = {
         const serverQueue = msg.client.queue.get(msg.guild.id);
         if (!serverQueue) return msg.channel.send('Não há nenhuma música tocando.')
             .then(msg => console.log('Não há músicas sendo reproduzidas.'));
-        serverQueue.songs = []
+        serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();
         msg.channel.send('Comando "stop" usado.');
         console.log('Comando "stop" usado.');
+    },
+
+
+    queue(msg) {
+        // Comando "queue".
+        const serverQueue = msg.client.queue.get(msg.guild.id);
+        if (!serverQueue) return msg.channel.send('A fila de reprodução está vazia.')
+            .then(msg => console.log('A fila de reprodução está vazia.'));
+        msg.channel.send('As musicas na fila de reprodução são:');
+        for (var pointer = 0; pointer < serverQueue.songs.length; pointer ++) {
+            msg.channel.send(serverQueue.songs[pointer].title);
+        };
     }
 };

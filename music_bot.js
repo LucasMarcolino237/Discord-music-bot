@@ -1,6 +1,6 @@
 const { Collection } = require('discord.js');
-const MusicClient = require('./struct/client')
-const commandList = require('./struct/commands')
+const MusicClient = require('./struct/client');
+const commandList = require('./struct/commands');
 const bot = new MusicClient();
 
 
@@ -9,16 +9,18 @@ bot.login(token);
 
 bot.once('ready', () => console.log('Bot pronto para o uso!'));
 
+bot.once('disconnect', () => console.log('Bot disconectado.'));
+
 bot.on('message', async msg => {
     if (!msg.content.startsWith('!') || msg.author.bot) {
         return;
     }
     if (msg.channel.type === 'dm') {
         return msg.reply('Comandos não podem ser enviados dentro de DMs.')
-            .then(msg => console.log(`Sent message: ${msg.content}`))
+            .then(msg => console.log(`Sent message: ${msg.content}`));
     }
     // Identifica o canal no qual o usuário está.
-    const VoiceChannel = msg.member.voice.channel
+    const VoiceChannel = msg.member.voice.channel;
     let args = (msg.content.slice(1)).split(/ +/);
     let comando = args.shift().toLowerCase();
     if (!VoiceChannel) {
@@ -31,8 +33,8 @@ bot.on('message', async msg => {
     }
     console.log('Canal encontrado.');
 
-    const aceptedCommands = commandList[comando]
+    const aceptedCommands = commandList[comando];
     if (aceptedCommands) {
-        aceptedCommands(msg, args)
+        aceptedCommands(msg, args);
     }
 });
