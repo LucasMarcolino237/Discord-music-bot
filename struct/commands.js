@@ -128,7 +128,16 @@ module.exports = {
             .then(msg => console.log('A fila de reprodução está vazia.'));
         msg.channel.send('As musicas na fila de reprodução são:');
         for (var pointer = 0; pointer < serverQueue.songs.length; pointer ++) {
-            msg.channel.send(serverQueue.songs[pointer].title);
+            msg.channel.send(`${pointer}º - ${serverQueue.songs[pointer].title}`);
         };
+    },
+
+
+    nowplaying(msg) {
+        const serverQueue = msg.client.queue.get(msg.guild.id);
+        if (serverQueue.playing) {
+            return msg.channel.send(`Reproduzindo "${serverQueue.songs[0].title}" no momento.`);
+        }
+        msg.channel.send('Não há nenhuma música sendo reproduzida no momento.');
     }
 };
