@@ -4,7 +4,7 @@ const commandList = require('./struct/commands');
 const bot = new MusicClient();
 
 
-const token = 'NzI4NjkyNTc2NTI1MjIxOTI5.Xv-F2A.jEBVJQq42lHyUb-yqSc9LkIW4mc';
+const token = 'INSIRA_SEU_TOKEN';
 
 bot.login(token);
 
@@ -45,7 +45,7 @@ bot.on('message', async msg => {
     const aceptedCommands = commandList[comando];
 
     if (aceptedCommands) {
-        
+
         aceptedCommands(msg, args);
     }
 });
