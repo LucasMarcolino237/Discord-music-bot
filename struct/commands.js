@@ -5,18 +5,38 @@ module.exports = {
 
     async play(msg, args) {
         // Comando "play". 
-        if (!args[0]) {
+        if (!args.length) {
+
             return msg.channel.send('Nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
                 .then(msg => console.log('Comando incompleto. Nenhuma música foi informada.'));
         }
+
+        const search = args.join(' ');
+        const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
+        const playlistPattern = /^.*(list=)([^#\&\?]*).*/gi;
+
+        const urlValid = videoPattern.test(args[0])
+
         const VoiceChannel = msg.member.voice.channel;
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
+        if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
+            return msg.reply('Utilize o comando "!playlist" para executar essa URL.')
+        }
+
+        if (!urlValid) {
+
+            return msg.reply("musica não encontrada");
+
+        }
+
         const songInfo = await ytdl.getInfo(args[0].replace(/<(.+)>/g, '$1'));
         const song = {
             id: songInfo.video_id,
             title: Util.escapeMarkdown(songInfo.title),
             url: songInfo.video_url
         };
+
         const queueConstruct = {
             textChannel: msg.channel,
             voiceChannel: VoiceChannel,
@@ -25,13 +45,16 @@ module.exports = {
             volume: 2,
             playing: true
         };
+
         const play = async song => {
             const queue = msg.client.queue.get(msg.guild.id);
+
             if (!song) {
                 queue.voiceChannel.leave();
                 msg.client.queue.delete(msg.guild.id);
                 return;
             }
+
         const dispatcher = queue.connection.play(ytdl(song.url))
             .on('finish', () => {
                 queue.songs.shift();
@@ -44,18 +67,25 @@ module.exports = {
         if (serverQueue) {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
+
             return msg.channel.send(`${song.title} foi adicionado a fila.`);
         }
+
         msg.client.queue.set(msg.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
+
         try {
+
             const connection = await VoiceChannel.join();
             queueConstruct.connection = connection;
             play(queueConstruct.songs[0]);
+
         } catch (error) {
+
             console.error(`Não foi possivel entrar no canal: ${error}`);
             msg.client.queue.delete(msg.guild.id);
             await channel.leave();
+
             return msg.channel.send(`Não foi possivel entrar no canal: ${error}`);
         }
     },
@@ -64,12 +94,15 @@ module.exports = {
     pause(msg) {
         // Comando "pause".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (serverQueue && serverQueue.playing) {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
+
             return msg.channel.send('Música pausada.')
                 .then(msg => console.log('Música pausada.'));
         }
+
         msg.channel.send('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
         console.log('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
     },
@@ -78,16 +111,21 @@ module.exports = {
     resume(msg) {
         // Comando "resume".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (serverQueue && !serverQueue.playing) {
             serverQueue.playing = true;
             serverQueue.connection.dispatcher.resume();
+
             return msg.channel.send(`Voltando a reproduzir ${serverQueue.songs[0].title}`)
                 .then(msg => console.log(`Voltando a reproduzir ${serverQueue.songs[0].title}`));
         }
+
         if (serverQueue && serverQueue.playing) {
+
             return msg.channel.send('A música já está sendo reproduzida.')
                 .then(msg => console.log('A música já está sendo reproduzida.'));
         }
+
         msg.channel.send('Não há nenhuma música pausada.');
         console.log('Não há nenhuma música pausada.');
     },
@@ -96,13 +134,17 @@ module.exports = {
     skip(msg) {
         // Comando "skip".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (!serverQueue) return msg.channel.send('A fila está vazia.')
             .then(msg => ('Fila vazia.'));
+
         if (serverQueue.songs.length > 1) {
             serverQueue.connection.dispatcher.end();
+
             return msg.channel.send('Reproduzindo a próxima música da fila.')
                 .then(msg => console.log('Reproduzindo a próxima música da fila.'));
         }
+
         serverQueue.connection.dispatcher.end();
         msg.channel.send('Não há mais músicas na fila.');
         console.log('Não há mais músicas na fila.');
@@ -112,8 +154,10 @@ module.exports = {
     stop(msg) {
         // Comando "stop".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (!serverQueue) return msg.channel.send('Não há nenhuma música tocando.')
             .then(msg => console.log('Não há músicas sendo reproduzidas.'));
+
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();
         msg.channel.send('Comando "stop" usado.');
@@ -124,9 +168,11 @@ module.exports = {
     queue(msg) {
         // Comando "queue".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (!serverQueue) return msg.channel.send('A fila de reprodução está vazia.')
             .then(msg => console.log('A fila de reprodução está vazia.'));
         msg.channel.send('As musicas na fila de reprodução são:');
+
         for (var pointer = 0; pointer < serverQueue.songs.length; pointer ++) {
             msg.channel.send(`${pointer}º - ${serverQueue.songs[pointer].title}`);
         };
@@ -134,10 +180,14 @@ module.exports = {
 
 
     nowplaying(msg) {
+        // Comando "now playing".
         const serverQueue = msg.client.queue.get(msg.guild.id);
+
         if (serverQueue.playing) {
+
             return msg.channel.send(`Reproduzindo "${serverQueue.songs[0].title}" no momento.`);
         }
+
         msg.channel.send('Não há nenhuma música sendo reproduzida no momento.');
     }
 };
