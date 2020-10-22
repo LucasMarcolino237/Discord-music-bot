@@ -1,5 +1,6 @@
 const { Util } = require('discord.js')
 const ytdl = require('ytdl-core');
+const scrapeYt = require("scrape-yt");
 
 module.exports = {
 
@@ -11,7 +12,8 @@ module.exports = {
                 .then(msg => console.log('Comando incompleto. Nenhuma música foi informada.'));
         }
 
-        const search = args.join(' ');
+        let search = args.join(' ');
+     
         const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
         const playlistPattern = /^.*(list=)([^#\&\?]*).*/gi;
 
@@ -26,10 +28,18 @@ module.exports = {
 
         if (!urlValid) {
 
-            return msg.reply("musica não encontrada");
-
+            // return msg.reply("musica não encontrada");
+            // https://www.npmjs.com/package/scrape-yt
+            // const video = (async() => {
+            //     let videos = await scrapeYt.search(search);
+            //     console.log(videos[0]);
+            //     return videos[0]
+            // })();
+            
+            // return search = video.url
         }
-
+        
+        console.log(search)
         const songInfo = await ytdl.getInfo(args[0].replace(/<(.+)>/g, '$1'));
         const song = {
             id: songInfo.video_id,
@@ -89,7 +99,6 @@ module.exports = {
             return msg.channel.send(`Não foi possivel entrar no canal: ${error}`);
         }
     },
-
 
     pause(msg) {
         // Comando "pause".

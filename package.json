@@ -18,9 +18,11 @@
   "homepage": "https://github.com/LucasMarcolino237/Discord-music-bot#readme",
   "dependencies": {
     "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
     "ffbinaries": "^1.1.4",
     "ffmpeg": "0.0.4",
     "opusscript": "0.0.7",
+    "scrape-yt": "^1.4.3",
     "ytdl-core": "^2.1.7"
   }
 }

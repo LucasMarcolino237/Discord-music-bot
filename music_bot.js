@@ -1,12 +1,12 @@
+require('dotenv').config()
+
 const { Collection } = require('discord.js');
 const MusicClient = require('./struct/client');
 const commandList = require('./struct/commands');
 const bot = new MusicClient();
 
 
-const token = 'INSIRA_SEU_TOKEN';
-
-bot.login(token);
+bot.login(process.env.DISCORD_TOKEN);
 
 bot.once('ready', () => console.log('Bot pronto para o uso!'));
 
