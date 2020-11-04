@@ -1,4 +1,3 @@
-const { Util } = require('discord.js')
 const ytdl = require('ytdl-core');
 const scrapeYt = require("scrape-yt");
 
@@ -13,11 +12,12 @@ module.exports = {
         }
 
         let search = args.join(' ');
+        const videoURL = "https://www.youtube.com/watch?v="
      
         const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
         const playlistPattern = /^.*(list=)([^#\&\?]*).*/gi;
 
-        const urlValid = videoPattern.test(args[0])
+        const urlValid = videoPattern.test(search)
 
         const VoiceChannel = msg.member.voice.channel;
         const serverQueue = msg.client.queue.get(msg.guild.id);
@@ -26,25 +26,26 @@ module.exports = {
             return msg.reply('Utilize o comando "!playlist" para executar essa URL.')
         }
 
-        if (!urlValid) {
+        if (urlValid) {
 
-            // return msg.reply("musica não encontrada");
-            // https://www.npmjs.com/package/scrape-yt
-            // const video = (async() => {
-            //     let videos = await scrapeYt.search(search);
-            //     console.log(videos[0]);
-            //     return videos[0]
-            // })();
+            search = search.slice(videoURL.length)
             
-            // return search = video.url
         }
+
+        // https://www.npmjs.com/package/scrape-yt
+        const video = (async() => {
+            let videos = await scrapeYt.search(search);
+            console.log(videos[0]);
+
+            return videos[0];
+        })();
         
+      
         console.log(search)
-        const songInfo = await ytdl.getInfo(args[0].replace(/<(.+)>/g, '$1'));
         const song = {
-            id: songInfo.video_id,
-            title: Util.escapeMarkdown(songInfo.title),
-            url: songInfo.video_url
+            id: (await video).id,
+            title: (await video).title,
+            url: `${videoURL}${(await video).id}`
         };
 
         const queueConstruct = {
@@ -71,6 +72,7 @@ module.exports = {
                 play(queue.songs[0]);
             })
             .on('error', error => console.error(error));
+
         dispatcher.setVolumeLogarithmic(queue.volume / 5);
         queue.textChannel.send(`Tocando ${song.title}`);
     }
