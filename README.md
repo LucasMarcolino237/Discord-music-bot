@@ -7,7 +7,7 @@
 
 ### Requirements
 
-Before, you need to install some tools in your machine:
+First of all, you need to install some tools in your machine:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/). 
 You'll need a good code editor too, like [VSCode](https://code.visualstudio.com/) and a developer account on [Discord](https://discord.com/).
 
@@ -38,9 +38,7 @@ $ node music_bot.js
 
 # Bot ready
 ```
-### 🛠 Tecnologies
-
-Tools used in this project:
+### 🛠 Technologies
 
 - [FFmpeg](https://ffmpeg.org/download.html)
 - [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
