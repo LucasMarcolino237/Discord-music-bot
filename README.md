@@ -7,13 +7,13 @@
 
 ### Requirements
 
-Before, you need install some tools in your machine:
+Before, you need to install some tools in your machine:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/). 
-You'll need a good code editor too, like a [VSCode](https://code.visualstudio.com/) and a developer account on [Discord](https://discord.com/).
+You'll need a good code editor too, like [VSCode](https://code.visualstudio.com/) and a developer account on [Discord](https://discord.com/).
 
 ### 🎲 First steps
 
-Go to [applications in Discord developer portal](https://discord.com/developers/applications), create bot and generate his token.
+Go to [applications in Discord developer portal](https://discord.com/developers/applications), create a bot and generate his token.
 
 ```bash
 # Clone this repository
