@@ -1,9 +1,23 @@
 require('dotenv').config()
 
-const { Collection } = require('discord.js');
+const fs = require('fs');
+
 const MusicClient = require('./struct/client');
-const commandList = require('./struct/commands');
 const bot = new MusicClient();
+
+const path = './struct/commands/'
+
+fs.readdir(path, (err, files) => {
+    if (err) return console.error(err);
+    files.forEach(file => {
+        if (!file.endsWith('.js')) return;
+        let props = require(`${path}${file}`);
+        let commandName = file.split('.')[0];
+        console.log(`Attempting to load command ${commandName}`);
+
+        bot.commands.set(commandName, props)
+    });
+});
 
 
 bot.login(process.env.DISCORD_TOKEN);
@@ -27,7 +41,7 @@ bot.on('message', async msg => {
     // Identifica o canal no qual o usuário está.
     const VoiceChannel = msg.member.voice.channel;
     let args = (msg.content.slice(1)).split(/ +/);
-    let comando = args.shift().toLowerCase();
+    let command = args.shift().toLowerCase();
 
     if (!VoiceChannel) {
         // Envia um aviso caso o canal não seja encontrado.
@@ -42,10 +56,8 @@ bot.on('message', async msg => {
 
     console.log('Canal encontrado.');
 
-    const aceptedCommands = commandList[comando];
+    const cmd = bot.commands.get(command)[command];
 
-    if (aceptedCommands) {
+    cmd(msg, args);
 
-        aceptedCommands(msg, args);
-    }
 });

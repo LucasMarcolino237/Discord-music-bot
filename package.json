@@ -23,6 +23,6 @@
     "ffmpeg": "0.0.4",
     "opusscript": "0.0.7",
     "scrape-yt": "^1.4.3",
-    "ytdl-core": "^2.1.7"
+    "ytdl-core": "^4.1.4"
   }
 }
