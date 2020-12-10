@@ -27,11 +27,7 @@ $ git clone <https://github.com/LucasMarcolino237/Discord-music-bot>
 $ cd Discord-music-bot
 
 # Install dependencies
-$ npm install discord.js
-$ npm install ffbinaries
-$ npm install opusscript
-$ npm install scrape-yt
-$ npm install ytdl-core
+$ npm install 
 
 # Start bot
 $ node music_bot.js
