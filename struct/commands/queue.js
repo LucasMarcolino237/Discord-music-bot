@@ -8,7 +8,7 @@ module.exports = {
         msg.channel.send('As musicas na fila de reprodução são:');
 
         for (var pointer = 0; pointer < serverQueue.songs.length; pointer ++) {
-            msg.channel.send(`${pointer}º - ${serverQueue.songs[pointer].title}`);
+            msg.channel.send(`${pointer + 1}º - ${serverQueue.songs[pointer].title}`);
         };
     }
 };

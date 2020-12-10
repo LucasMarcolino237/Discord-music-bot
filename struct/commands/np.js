@@ -1,6 +1,6 @@
 module.exports = {
 
-    nowplaying(msg) {
+    np(msg) {
         // Comando "now playing".
         const serverQueue = msg.client.queue.get(msg.guild.id);
 
