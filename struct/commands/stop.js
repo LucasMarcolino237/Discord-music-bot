@@ -9,7 +9,6 @@ module.exports = {
 
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();
-        msg.channel.send('Comando "stop" usado.');
-        console.log('Comando "stop" usado.');
+        msg.channel.send('Fila limpa. Encerrando o bot...');
     }
 };

@@ -6,7 +6,7 @@ module.exports = {
 
         if (!args.length) {
 
-            return msg.channel.send('Nenhuma playlist foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
+            return msg.reply('nenhuma playlist foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
                 .then(msg => console.log('Comando incompleto. Nenhuma playlist foi informada.'));
         }
 
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         if (!playlistPattern.test(args[0]) && videoPattern.test(args[0])) {
-            return msg.reply('Utilize o comando "!play" para executar essa URL.')
+            return msg.reply('utilize o comando "!play" para executar essa URL.')
         }
 
         const play = async song => {

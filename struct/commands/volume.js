@@ -6,7 +6,7 @@ module.exports = {
         const serverQueue = msg.client.queue.get(msg.guild.id);
 
         if (!serverQueue) {
-            return msg.channel.send('Esse comando só pode ser usado enquanto uma música é reproduzida.');
+            return msg.reply('esse comando só pode ser usado enquanto uma música é reproduzida.');
         }
 
         if (!args[0]) {
@@ -14,7 +14,7 @@ module.exports = {
         }
 
         if (args[0] > 10) {
-            msg.channel.send('Nos vemos no céu amigo... :grin:');
+            msg.reply('Nos vemos no céu amigo... :grin:');
         }
 
         serverQueue.connection.dispatcher.setVolumeLogarithmic(args[0]/5);

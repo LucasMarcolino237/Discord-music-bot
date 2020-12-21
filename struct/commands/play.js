@@ -6,7 +6,7 @@ module.exports = {
         // Comando "play". 
         if (!args.length) {
 
-            return msg.channel.send('Nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
+            return msg.reply('nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
                 .then(msg => console.log('Comando incompleto. Nenhuma música foi informada.'));
         }
 
@@ -19,7 +19,7 @@ module.exports = {
         const serverQueue = msg.client.queue.get(msg.guild.id);
 
         if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
-            return msg.reply('Utilize o comando "!playlist" para executar essa URL.')
+            return msg.reply('utilize o comando "!playlist" para executar essa URL.')
         }
 
         

@@ -4,7 +4,9 @@
   "description": "Just a music bot",
   "main": "music_bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node music_bot.js",
+    "dev": "nodemon music_bot.js",
+    "test": "test Discord-music-bot"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,9 @@
     "ffmpeg": "0.0.4",
     "opusscript": "0.0.7",
     "scrape-yt": "^1.4.7",
-    "ytdl-core": "^4.1.4"
+    "ytdl-core": "^4.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }

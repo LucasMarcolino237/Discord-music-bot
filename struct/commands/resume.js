@@ -18,7 +18,7 @@ module.exports = {
                 .then(msg => console.log('A música já está sendo reproduzida.'));
         }
 
-        msg.channel.send('Não há nenhuma música pausada.');
+        msg.reply('não há nenhuma música pausada.');
         console.log('Não há nenhuma música pausada.');
     }
 };

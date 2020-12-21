@@ -12,7 +12,7 @@ module.exports = {
                 .then(msg => console.log('Música pausada.'));
         }
 
-        msg.channel.send('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
+        msg.reply('é necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
         console.log('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
     }
 };

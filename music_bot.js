@@ -42,22 +42,25 @@ bot.on('message', async msg => {
     const VoiceChannel = msg.member.voice.channel;
     let args = (msg.content.slice(1)).split(/ +/);
     let command = args.shift().toLowerCase();
+    let cmd = bot.commands.get(command);
 
     if (!VoiceChannel) {
         // Envia um aviso caso o canal não seja encontrado.
         console.log('Canal não encontrado.');
 
-        return msg.channel
-        
-            .send('Você precisa estar em um canal primeiro.')
+        return msg
+            .reply('você precisa estar em um canal primeiro.')
             .then(msg => console.log(`Sent message: ${msg.content}`))
             .catch(console.error);
     }
 
+    if (!command.length || !cmd) {
+
+        return msg.reply('comando não informado ou inválido. Por favor informe o comando que deseja executar.');
+    }
     console.log('Canal encontrado.');
 
-    const cmd = bot.commands.get(command)[command];
-
+    cmd = cmd[command];
     cmd(msg, args);
 
 });
