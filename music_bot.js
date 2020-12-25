@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const fs = require('fs');
+const { Error } = require('opusscript');
 
 const MusicClient = require('./struct/client');
 const bot = new MusicClient();
@@ -53,14 +54,18 @@ bot.on('message', async msg => {
             .then(msg => console.log(`Sent message: ${msg.content}`))
             .catch(console.error);
     }
-
-    if (!command.length || !cmd) {
-
-        return msg.reply('comando não informado ou inválido. Por favor informe o comando que deseja executar.');
-    }
     console.log('Canal encontrado.');
+    
+    try {
 
-    cmd = cmd[command];
-    cmd(msg, args);
+        cmd = cmd[command];
+        cmd(msg, args);
 
+    } catch (error) {
+        
+            msg.reply('comando não informado ou inválido. Por favor informe o comando que deseja executar.');
+            console.error(error);
+        
+        
+    }
 });

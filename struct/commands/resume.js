@@ -8,17 +8,35 @@ module.exports = {
             serverQueue.playing = true;
             serverQueue.connection.dispatcher.resume();
 
-            return msg.channel.send(`Voltando a reproduzir ${serverQueue.songs[0].title}`)
+            return msg.channel.send({
+                embed: {
+                    title: 'Resume',
+                    description: `Voltando a reproduzir ${serverQueue.songs[0].title}`,
+                    color: 'GREEN'
+                }
+            })
                 .then(msg => console.log(`Voltando a reproduzir ${serverQueue.songs[0].title}`));
         }
 
         if (serverQueue && serverQueue.playing) {
 
-            return msg.channel.send('A música já está sendo reproduzida.')
+            return msg.channel.send({
+                embed: {
+                    title: 'Aviso',
+                    description: 'A música já está sendo reproduzida.',
+                    color: 'RED'
+                }
+            })
                 .then(msg => console.log('A música já está sendo reproduzida.'));
         }
 
-        msg.reply('não há nenhuma música pausada.');
+        msg.channel.send({
+            embed: {
+                title: 'Aviso',
+                description: 'Não há nenhuma música pausada.',
+                color: 'RED'
+            }
+        });
         console.log('Não há nenhuma música pausada.');
     }
 };

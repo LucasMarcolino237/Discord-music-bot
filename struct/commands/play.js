@@ -6,7 +6,13 @@ module.exports = {
         // Comando "play". 
         if (!args.length) {
 
-            return msg.reply('nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.')
+            return msg.channel.send({
+                embed: {
+                    title: 'Endereço ou termo de busca não encontrado.',
+                    description: 'nenhuma música foi informada.Você precisa informar o nome da música ou um link que leve até ela.',
+                    color: 'RED'
+                }
+            })
                 .then(msg => console.log('Comando incompleto. Nenhuma música foi informada.'));
         }
 
@@ -19,7 +25,13 @@ module.exports = {
         const serverQueue = msg.client.queue.get(msg.guild.id);
 
         if (!videoPattern.test(args[0]) && playlistPattern.test(args[0])) {
-            return msg.reply('utilize o comando "!playlist" para executar essa URL.')
+            return msg.channel.send({
+                embed: {
+                    title: 'Isso é uma playist!',
+                    description: 'utilize o comando "!playlist" para executar essa URL.',
+                    color: 'RED'
+                }
+            })
         }
 
         
@@ -37,6 +49,7 @@ module.exports = {
         const song = {
             id: (await video).id,
             title: (await video).title,
+            thumbnail: (await  video).thumbnail,
             url: `https://www.youtube.com/watch?v=${(await video).id}`
         };
 
@@ -65,13 +78,24 @@ module.exports = {
             })
             .on('error', error => console.error(error));
         dispatcher.setVolumeLogarithmic(queue.volume / 5);
-        queue.textChannel.send(`Tocando ${song.title}`);
+        queue.textChannel.send({
+            embed: {
+                title: 'Play',
+                description: `Tocando ${song.title}`,
+                color: 'BLUE'
+            }});
     }
         if (serverQueue) {
             serverQueue.songs.push(song);
             console.log(serverQueue.songs);
 
-            return msg.channel.send(`${song.title} foi adicionado a fila.`);
+            return msg.channel.send({
+                embed: {
+                    description: `${song.title} foi adicionado a fila.`,
+                    thumbnail: song.thumbnail,
+                    color: 'GREEN'
+                }
+            });
         }
 
         msg.client.queue.set(msg.guild.id, queueConstruct);
@@ -89,7 +113,13 @@ module.exports = {
             msg.client.queue.delete(msg.guild.id);
             await channel.leave();
 
-            return msg.channel.send(`Não foi possivel entrar no canal: ${error}`);
+            return msg.channel.send({
+                embed: {
+                    title: 'Aviso',
+                    description: `Não foi possivel entrar no canal: ${error}`,
+                    color: 'RED'
+                }
+            });
         }
     }
 };

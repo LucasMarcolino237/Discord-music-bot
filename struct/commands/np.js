@@ -4,11 +4,24 @@ module.exports = {
         // Comando "now playing".
         const serverQueue = msg.client.queue.get(msg.guild.id);
 
-        if (serverQueue.playing) {
+        if (serverQueue) {
 
-            return msg.channel.send(`Reproduzindo "${serverQueue.songs[0].title}" no momento.`);
+            return msg.channel.send({
+                embed: {
+                    title: 'Now playing',
+                    description:`Reproduzindo "${serverQueue.songs[0].title}" no momento.`,
+                    color: 'YELLOW',
+                    thumbnail: serverQueue.songs[0].thumbnail
+                }
+            });
+
         }
 
-        msg.channel.send('Não há nenhuma música sendo reproduzida no momento.');
+        msg.channel.send({
+            embed: {
+                title: 'Não há nenhuma música sendo reproduzida no momento.',
+                color: 'RED'
+            }
+        });
     }
 };

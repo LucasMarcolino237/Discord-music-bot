@@ -8,11 +8,22 @@ module.exports = {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
 
-            return msg.channel.send('Música pausada.')
+            return msg.channel.send({
+                embed: {
+                    description: 'Música pausada.',
+                    color: 'GREEN'
+                }
+            })
                 .then(msg => console.log('Música pausada.'));
         }
 
-        msg.reply('é necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
+        msg.channel.send({
+            embed: {
+                title: 'Aviso',
+                description:'é necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.',
+                color: 'RED'
+            }
+        });
         console.log('É necessário que músicas estejam sendo reproduzidas para que você possa pausa-las.');
     }
 };

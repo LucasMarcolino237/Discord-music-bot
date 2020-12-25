@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node music_bot.js",
     "dev": "nodemon music_bot.js",
-    "test": "test Discord-music-bot"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
