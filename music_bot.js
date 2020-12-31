@@ -41,9 +41,11 @@ bot.on('message', async msg => {
 
     // Identifica o canal no qual o usuário está.
     const VoiceChannel = msg.member.voice.channel;
+
     let args = (msg.content.slice(1)).split(/ +/);
     let command = args.shift().toLowerCase();
-    let cmd = bot.commands.get(command);
+
+    const cmd = bot.commands.get(command)[command];
 
     if (!VoiceChannel) {
         // Envia um aviso caso o canal não seja encontrado.
@@ -58,7 +60,7 @@ bot.on('message', async msg => {
     
     try {
 
-        cmd = cmd[command];
+        // cmd = cmd[command];
         cmd(msg, args);
 
     } catch (error) {

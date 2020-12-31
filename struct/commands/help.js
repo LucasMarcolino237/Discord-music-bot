@@ -5,7 +5,8 @@ module.exports = {
             embed: {
                 title: 'Help',
                 description: `
-                !play <songName> - Play a song from youtube
+                !play <songName or songLink> - Play a song from youtube
+                !playlist <playlistName or playlistLink> - Play a playlist from youtube
                 !pause - pause music
                 !resume - resume music
                 !np - Get now playing song's info

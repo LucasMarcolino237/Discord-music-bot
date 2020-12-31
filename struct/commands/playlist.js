@@ -1,5 +1,5 @@
 const scrapeYt = require('scrape-yt');
-const ytdl = require('ytdl-core');
+const { play } = require('../player');
 
 module.exports = {
     async playlist(msg, args) {
@@ -10,7 +10,7 @@ module.exports = {
                 embed: {
                     title: 'Endereço ou termo de busca não encontrado.',
                     description: 'nenhuma playlist foi informada.Você precisa informar o nome da playlist ou um link que leve até ela.',
-                    color: 'RED'
+                    color: 'RED',
                 }
             })
                 .then(msg => console.log('Comando incompleto. Nenhuma playlist foi informada.'));
@@ -25,13 +25,14 @@ module.exports = {
         let serverQueue = msg.client.queue.get(msg.guild.id);
 
         if (!serverQueue){
+
             const queueConstruct = {
                 textChannel: msg.channel,
                 voiceChannel: VoiceChannel,
                 connection: null,
                 songs: [],
                 volume: 2,
-                playing: true
+                playing: true,
             };
 
             msg.client.queue.set(msg.guild.id, queueConstruct);
@@ -43,35 +44,10 @@ module.exports = {
                 embed: {
                     title: 'Isso não é uma playist!',
                     description: 'utilize o comando "!play" para executar essa URL.',
-                    color: 'RED'
+                    color: 'RED',
                 }
             })
         }
-
-        const play = async song => {
-
-            if (!song) {
-                serverQueue.voiceChannel.leave();
-                msg.client.queue.delete(msg.guild.id);
-                return;
-            }
-
-        const dispatcher = serverQueue.connection.play(ytdl(song.url))
-            .on('finish', () => {
-                serverQueue.songs.shift();
-                play(serverQueue.songs[0]);
-            })
-            .on('error', error => console.error(error));
-        dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-        serverQueue.textChannel.send({
-            embed: {
-                title: 'Now playing',
-                description: `Tocando ${song.title}`,
-                color: 'YELLOW'
-            }
-        });
-        }
-
         
         // https://www.npmjs.com/package/scrape-yt
         const playlist = (async() => {
@@ -89,33 +65,26 @@ module.exports = {
             const song = {
                 id: (await video).id,
                 title: (await video).title,
-                url: `https://www.youtube.com/watch?v=${(await video).id}`
+                url: `https://www.youtube.com/watch?v=${(await video).id}`,
             };
 
-            console.log(song)
-            if (serverQueue) {
-                serverQueue.songs.push(song)
-            }
+            console.log(song);
+            serverQueue.songs.push(song);
         });
 
-        try {
-            if(serverQueue.songs.length !== 0) {
-                return msg.channel.send({
-                    embed: {
-                        description: `${(await videos)[0].title} e ${(await playlist).videoCount - 1} outras músicas foram adicionadas a fila.`,
-                        color: 'GREEN'
-                    }
-                });
-            }
+        if (serverQueue.songs.length === 0) {
+            
+            try {
 
             const connection = await VoiceChannel.join();
             serverQueue.connection = connection;
-            play(serverQueue.songs[0]);
+            play(msg, serverQueue.songs[0]);
             
             return msg.channel.send({
                 embed: {
+                    title: 'Playlist',
                     description: `${(await videos)[0].title} e ${(await playlist).videoCount - 1} outras músicas foram adicionadas a fila.`,
-                    color: 'GREEN'
+                    color: 'GREEN',
                 }
             });
 
@@ -129,9 +98,18 @@ module.exports = {
                 embed: {
                     title: 'Aviso',
                     description: `Não foi possivel entrar no canal: ${error}`,
-                    color: 'RED'
+                    color: 'RED',
                 }
             });
-        }        
+        } 
+        }
+        
+        msg.channel.send({
+            embed: {
+                title: 'Playlist',
+                description: `${await (videos)[0].title} e outras ${await (videos).length - 1} músicas foram adicionadas na fila.`,
+                color: 'GREEN',
+            }
+        });       
     }
 }

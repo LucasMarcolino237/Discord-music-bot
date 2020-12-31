@@ -11,7 +11,6 @@ module.exports = {
                     title: 'Now playing',
                     description:`Reproduzindo "${serverQueue.songs[0].title}" no momento.`,
                     color: 'YELLOW',
-                    thumbnail: serverQueue.songs[0].thumbnail
                 }
             });
 
