@@ -1,5 +1,5 @@
 const scrapeYt = require('scrape-yt');
-const { play } = require('../player');
+const { player } = require('../player');
 
 module.exports = {
     async playlist(msg, args) {
@@ -76,32 +76,32 @@ module.exports = {
             
             try {
 
-            const connection = await VoiceChannel.join();
-            serverQueue.connection = connection;
-            play(msg, serverQueue.songs[0]);
-            
-            return msg.channel.send({
-                embed: {
-                    title: 'Playlist',
-                    description: `${(await videos)[0].title} e ${(await playlist).videoCount - 1} outras músicas foram adicionadas a fila.`,
-                    color: 'GREEN',
-                }
-            });
+                const connection = await VoiceChannel.join();
+                serverQueue.connection = connection;
+                player(msg);
+                
+                return msg.channel.send({
+                    embed: {
+                        title: 'Playlist',
+                        description: `${(await videos)[0].title} e ${(await playlist).videoCount - 1} outras músicas foram adicionadas a fila.`,
+                        color: 'GREEN',
+                    }
+                });
 
-        } catch (error) {
+            } catch (error) {
 
-            console.error(`Não foi possivel entrar no canal: ${error}`);
-            msg.client.queue.delete(msg.guild.id);
-            await channel.leave();
-
-            return msg.channel.send({
-                embed: {
-                    title: 'Aviso',
-                    description: `Não foi possivel entrar no canal: ${error}`,
-                    color: 'RED',
-                }
-            });
-        } 
+                console.error(`Não foi possivel entrar no canal: ${error}`);
+                msg.client.queue.delete(msg.guild.id);
+                await channel.leave();
+                
+                return msg.channel.send({
+                    embed: {
+                        title: 'Aviso',
+                        description: `Não foi possivel entrar no canal: ${error}`,
+                        color: 'RED',
+                    }
+                });
+            } 
         }
         
         msg.channel.send({

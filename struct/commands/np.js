@@ -19,7 +19,7 @@ module.exports = {
         msg.channel.send({
             embed: {
                 title: 'Não há nenhuma música sendo reproduzida no momento.',
-                color: 'RED'
+                color: 'RED',
             }
         });
     }

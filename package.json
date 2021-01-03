@@ -25,7 +25,7 @@
     "ffmpeg": "0.0.4",
     "opusscript": "0.0.7",
     "scrape-yt": "^1.4.7",
-    "ytdl-core": "^4.2.1"
+    "ytdl-core": "^4.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

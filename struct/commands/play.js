@@ -1,5 +1,5 @@
 const scrapeYt = require("scrape-yt");
-const { play } = require('../player')
+const { player } = require('../player')
 
 module.exports = {
     async play(msg, args) {
@@ -84,7 +84,7 @@ module.exports = {
 
             const connection = await VoiceChannel.join();
             serverQueue.connection = connection;
-            play(msg, serverQueue.songs[0]);
+            player(msg);
 
         } catch (error) {
 
