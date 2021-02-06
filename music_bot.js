@@ -45,7 +45,11 @@ bot.on('message', async msg => {
     let args = (msg.content.slice(1)).split(/ +/);
     let command = args.shift().toLowerCase();
 
-    const cmd = bot.commands.get(command)[command];
+    if (!command.length) {
+        return msg.reply('Comando não informado. Por favor informe o comando que deseja executar.')
+    }
+
+    const cmd = bot.commands.get(command);
 
     if (!VoiceChannel) {
         // Envia um aviso caso o canal não seja encontrado.
@@ -60,12 +64,11 @@ bot.on('message', async msg => {
     
     try {
 
-        // cmd = cmd[command];
-        cmd(msg, args);
+        cmd[command](msg, args);
 
     } catch (error) {
         
-            msg.reply('comando não informado ou inválido. Por favor informe o comando que deseja executar.');
+            msg.reply('comando inválido. Por favor informe o comando que deseja executar.');
             console.error(error);
         
         
